@@ -81,6 +81,8 @@ class RedactingFormatter(logging.Formatter):
         """
 
     REDACTION = "***"
+    from filtered_logger import filter_datum  # Import the filter_datum function
+
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
@@ -98,5 +100,5 @@ class RedactingFormatter(logging.Formatter):
         return super(RedactingFormatter, self).format(record)
 
 
-if __name__ == = "__main__":
+if __name__ ==  "__main__":
     main()
