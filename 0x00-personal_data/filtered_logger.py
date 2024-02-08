@@ -13,7 +13,7 @@ import mysql.connector
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
 
-def fliter_datum(
+def filter_datum(
         fields: List[str],
         redaction: str,
         message: str,
@@ -81,8 +81,6 @@ class RedactingFormatter(logging.Formatter):
         """
 
     REDACTION = "***"
-    from filtered_logger import filter_datum  # Import the filter_datum function
-
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
@@ -100,5 +98,5 @@ class RedactingFormatter(logging.Formatter):
         return super(RedactingFormatter, self).format(record)
 
 
-if __name__ ==  "__main__":
+if __name__ == "__main__":
     main()
