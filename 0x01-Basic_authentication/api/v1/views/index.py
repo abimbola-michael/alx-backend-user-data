@@ -31,4 +31,13 @@ def unauthorized() -> str:
     """For testing this new error handler, add a
     new endpoint in api/v1/views/index.py
     """
-    abort(401)
+    abort(401, description="Unauthorized")
+
+
+@app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
+def forbidden() -> str:
+    """
+    For testing this new error handler, add a new endpoint
+    in api/v1/views/index.py
+    """
+    abort(403, description='Forbidden')
