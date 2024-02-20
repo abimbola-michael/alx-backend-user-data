@@ -34,17 +34,17 @@ class Auth:
         """
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> Optional[User]:
+    def register_user(self, email: str, password: str) -> User:
         """
         Register a user
         """
         try:
-            self._db.find_user_by(email=email)
+            user = self._db.find_user_by(email=email)
+            if user:
+                raise ValueError(f"User {email} already exists")
         except NoResultFound:
             password = _hash_password(password).decode("utf-8")
             return self._db.add_user(email, password)
-        else:
-            raise ValueError(f"User {email} already exists")
 
     def valid_login(self, email: str, password: str) -> bool:
         """
