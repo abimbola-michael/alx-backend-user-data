@@ -6,8 +6,23 @@ from uuid import uuid4
 import bcrypt
 from db import DB
 from user import User
-from typing import Union
+from typing import Optional
 from sqlalchemy.orm.exc import NoResultFound
+
+
+def _hash_password(password: str) -> bytes:
+    """
+    Hash a password
+    """
+    encoded = password.encode("utf-8")
+    return bcrypt.hashpw(encoded, bcrypt.gensalt())
+
+
+def _generate_uuid() -> str:
+    """
+    Generate a UUID
+    """
+    return str(uuid4())
 
 
 class Auth:
@@ -19,7 +34,7 @@ class Auth:
         """
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> User:
+    def register_user(self, email: str, password: str) -> Optional[User]:
         """
         Register a user
         """
@@ -93,23 +108,9 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(reset_token=reset_token)
-            user.hashed_password = _hash_password(password)
+            password = _hash_password(password).decode("utf-8")
+            user.hashed_password = password
             user.reset_token = None
             return None
         except NoResultFound:
             raise ValueError
-
-
-def _hash_password(password: str) -> bytes:
-    """
-    Hash a password
-    """
-    encoded = password.encode("utf-8")
-    return bcrypt.hashpw(encoded, bcrypt.gensalt())
-
-
-def _generate_uuid() -> str:
-    """
-    Generate a UUID
-    """
-    return str(uuid4())
