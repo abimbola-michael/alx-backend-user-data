@@ -44,13 +44,15 @@ class DB:
         """
         Find a user by a given attribute
         """
+        if not kwargs:
+            raise InvalidRequestError
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
             if not user:
                 raise NoResultFound
             return user
-        except Exception:
-            raise InvalidRequestError
+        except Exception as e:
+            raise InvalidRequestError("Invalid query arguments") from e
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """
