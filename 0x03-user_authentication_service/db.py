@@ -51,8 +51,8 @@ class DB:
             if not user:
                 raise NoResultFound
             return user
-        except Exception as e:
-            raise InvalidRequestError("Invalid query arguments") from e
+        except InvalidRequestError:
+            raise InvalidRequestError
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """
