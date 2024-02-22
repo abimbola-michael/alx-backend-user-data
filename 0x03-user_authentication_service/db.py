@@ -48,7 +48,7 @@ class DB:
             raise InvalidRequestError
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
-        except InvalidRequestError:
+        except Exception:
             raise InvalidRequestError
         if not user:
             raise NoResultFound
