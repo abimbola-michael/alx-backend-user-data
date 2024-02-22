@@ -68,6 +68,8 @@ def profile() -> str:
     Endpoint to get the user's profile
     """
     session_id = request.cookies.get("session_id")
+    if not session_id:
+        abort(403)
     user = AUTH.get_user_from_session_id(session_id)
     if not user:
         abort(403)
@@ -80,6 +82,8 @@ def get_reset_password_token() -> str:
     Endpoint to get the reset password token
     """
     email = request.form.get("email")
+    if not email:
+        abort(403)
     try:
         reset_token = AUTH.get_reset_password_token(email)
         return jsonify({"email": email, "reset_token": reset_token}), 200
@@ -95,6 +99,8 @@ def update_password():
     email = request.form.get("email")
     reset_token = request.form.get("reset_token")
     new_password = request.form.get("new_password")
+    if not email or not reset_token or not new_password:
+        abort(403)
     try:
         AUTH.update_password(reset_token, new_password)
         return jsonify({"email": email, "message": "Password updated"}), 200
