@@ -65,7 +65,6 @@ class Auth:
             user = self._db.find_user_by(email=email)
             session_id = _generate_uuid()
             user.session_id = session_id
-            self._db._session.commit()
             return session_id
         except NoResultFound:
             return None
@@ -86,7 +85,6 @@ class Auth:
         try:
             user = self._db.find_user_by(id=user_id)
             user.session_id = None
-            self._db._session.commit()
         except NoResultFound:
             pass
 
@@ -98,7 +96,6 @@ class Auth:
             user = self._db.find_user_by(email=email)
             reset_token = _generate_uuid()
             user.reset_token = reset_token
-            self._db._session.commit()
         except NoResultFound:
             raise ValueError
 
